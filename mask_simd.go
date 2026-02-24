@@ -7,14 +7,15 @@ import (
 	"simd/archsimd"
 )
 
-// MaskXOR_SIMD256_128 is a hybrid masking implementation.
+// MaskXOR_SIMD128 applies the WebSocket masking key to b using 128-bit SIMD.
 //
-// - >= 4096 bytes: uses 256-bit AVX2 for maximum throughput
-// - >= 512 bytes:  uses 128-bit SIMD to avoid AVX2 frequency penalties
-// - smaller sizes: falls back to scalar 64-bit unrolled XOR
+// For buffers >= 512 bytes, it uses 128-bit vector XOR (8x16B unrolled per iteration, 128B per loop)
+// to improve throughput while avoiding AVX2 frequency downclock effects on client/mobile Intel CPUs.
 //
-// This tiered approach was chosen empirically to balance AVX2 downclock
-// behavior on Intel client/mobile CPUs while retaining peak performance for large buffers.
+// Smaller buffers fall back to a fully unrolled scalar 64-bit path,
+// which is faster for tiny workloads due to lower setup cost.
+//
+// Performs better on benchMaskCopy than the MaskXOR_SIMD256
 func MaskXOR_SIMD128(b []byte, key []byte) {
 	key32 := binary.LittleEndian.Uint32(key)
 	key64 := uint64(key32)<<32 | uint64(key32)
@@ -280,15 +281,14 @@ func MaskXOR_SIMD256(b []byte, key []byte) {
 	}
 }
 
-// MaskXOR_SIMD128 applies the WebSocket masking key to b using 128-bit SIMD.
+// MaskXOR_SIMD256_128 is a hybrid masking implementation.
 //
-// For buffers >= 512 bytes, it uses 128-bit vector XOR (8x16B unrolled per iteration, 128B per loop)
-// to improve throughput while avoiding AVX2 frequency downclock effects on client/mobile Intel CPUs.
+// - >= 4096 bytes: uses 256-bit AVX2 for maximum throughput
+// - >= 512 bytes:  uses 128-bit SIMD to avoid AVX2 frequency penalties
+// - smaller sizes: falls back to scalar 64-bit unrolled XOR
 //
-// Smaller buffers fall back to a fully unrolled scalar 64-bit path,
-// which is faster for tiny workloads due to lower setup cost.
-//
-// Performs better on benchMaskCopy than the MaskXOR_SIMD256
+// This tiered approach was chosen empirically to balance AVX2 downclock
+// behavior on Intel client/mobile CPUs while retaining peak performance for large buffers.
 func MaskXOR_SIMD256_128(b []byte, key []byte) {
 	key32 := binary.LittleEndian.Uint32(key)
 	key64 := uint64(key32)<<32 | uint64(key32)
