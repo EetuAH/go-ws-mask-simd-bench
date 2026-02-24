@@ -22,8 +22,7 @@ goarch: amd64
 
 ## In-Place Benchmark (Hot Buffer)
 
-* **Original is slower at smaller payloads <64B.**
-* OriginalOptimized quickly catches up.
+* **Original is slower than optimized at smaller payloads <64B.**
 * SIMD128 starts pulling ahead at 512B+.
 * SIMD256 dominates strongly from 1KB upward.
 * Hybrid matches or slightly beats pure SIMD256 at larger sizes.
