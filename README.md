@@ -46,20 +46,30 @@ goarch: amd64
 
 ---
 
-# Why SIMD256 Collapses at 512B–1KB?
+# Why Does SIMD256 Collapse at 512B–1KB?
 
-On many Intel CPUs (including 13th gen):
+On many Intel CPUs (including 13th gen), mixing AVX2 (YMM) instructions with legacy SSE (XMM) instructions can trigger a significant **AVX ↔ SSE transition penalty**.
 
-* Heavy AVX2 usage can trigger **frequency downclocking**
-* For small workloads, AVX startup cost > benefit
-* In streaming scenarios, memory pressure amplifies this
+In the `benchMaskCopy` benchmark, each iteration does:
 
-The **Hybrid approach** avoids this by:
+1. `copy(dst, src)` → uses `runtime.memmove`
+2. AVX2 mask (YMM instructions)
+3. Next iteration repeats
+
+If AVX2 code is followed by legacy SSE instructions without executing `VZEROUPPER`, Intel CPUs can incur a substantial performance penalty.
+
+This explains why:
+
+* **Pure SIMD256 collapses at 512B–1KB** in streaming workloads
+* But performs extremely well for large in-place workloads
+* And recovers again at ≥4KB where the AVX2 work amortizes the transition cost
+
+The Hybrid approach avoids this by:
 
 * Using AVX2 only for large buffers
 * Falling back to 128-bit SIMD for mid-sized buffers
 
-This gives the best overall performance profile.
+This results in much more stable performance across workload types.
 
 ---
 
