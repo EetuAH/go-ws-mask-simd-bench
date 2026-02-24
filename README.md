@@ -22,7 +22,7 @@ goarch: amd64
 
 ## In-Place Benchmark (Hot Buffer)
 
-* **Original is massively slower at 48B.**
+* Original is slower at smaller payloads <64B.
 * OriginalOptimized quickly catches up.
 * SIMD128 starts pulling ahead at 512B+.
 * SIMD256 dominates strongly from 1KB upward.
@@ -87,54 +87,54 @@ goos: linux
 goarch: amd64
 pkg: github.com/EetuAH/go-ws-mask-simd-bench
 cpu: 13th Gen Intel(R) Core(TM) i9-13900H
-BenchmarkMaskOriginal_48B-20               	34071099	        29.62 ns/op	1620.76 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_64B-20               	289673161	         4.189 ns/op	15276.87 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_128B-20              	213572990	         5.569 ns/op	22982.57 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_256B-20              	139787794	         8.582 ns/op	29830.10 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_512B-20              	74901933	        14.74 ns/op	34743.74 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_1KB-20               	42666604	        27.08 ns/op	37809.00 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_4KB-20               	10785301	       111.4 ns/op	36768.14 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_16KB-20              	 2853536	       419.9 ns/op	39016.98 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_256KB-20             	  148568	      7539 ns/op	34772.44 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_48B-20      	267460255	         4.323 ns/op	11104.53 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_64B-20      	306349160	         3.838 ns/op	16676.32 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_128B-20     	222374852	         5.344 ns/op	23951.07 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_256B-20     	143018490	         8.390 ns/op	30514.22 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_512B-20     	75636919	        14.47 ns/op	35376.35 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_1KB-20      	45015630	        26.64 ns/op	38438.68 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_4KB-20      	11763145	       101.3 ns/op	40429.53 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_16KB-20     	 2977834	       402.2 ns/op	40731.06 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_256KB-20    	  158445	      7641 ns/op	34306.47 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_48B-20                	268915604	         4.461 ns/op	10761.08 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_64B-20                	293037900	         4.052 ns/op	15794.52 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_128B-20               	215643660	         5.578 ns/op	22946.22 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_256B-20               	138940147	         8.580 ns/op	29835.80 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_512B-20               	86917975	        13.70 ns/op	37374.11 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_1KB-20                	62050648	        19.28 ns/op	53113.54 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_4KB-20                	18244286	        66.08 ns/op	61984.51 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_16KB-20               	 4848559	       245.3 ns/op	66780.88 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_256KB-20              	  252157	      4710 ns/op	55657.12 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_48B-20                	263053634	         4.530 ns/op	10597.11 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_64B-20                	287505613	         4.056 ns/op	15778.96 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128B-20               	212372400	         5.623 ns/op	22764.50 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_256B-20               	137645920	         8.755 ns/op	29240.81 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_512B-20               	94967655	        12.68 ns/op	40390.47 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_1KB-20                	66643185	        16.07 ns/op	63737.30 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_4KB-20                	24771553	        49.81 ns/op	82240.59 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_16KB-20               	 6792140	       174.6 ns/op	93861.45 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_256KB-20              	  285396	      4112 ns/op	63746.28 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_48B-20            	257787620	         4.615 ns/op	10399.97 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_64B-20            	284436734	         4.165 ns/op	15365.42 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_128B-20           	210889581	         5.668 ns/op	22583.87 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_256B-20           	138078789	         8.684 ns/op	29480.23 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_512B-20           	87974313	        13.63 ns/op	37559.13 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_1KB-20            	62260396	        19.33 ns/op	52977.41 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_4KB-20            	24869986	        48.35 ns/op	84708.40 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_16KB-20           	 6907329	       173.6 ns/op	94360.17 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_256KB-20          	  292030	      4102 ns/op	63907.70 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_48B-20               	189498069	         6.163 ns/op	7788.35 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_64B-20               	278687907	         4.195 ns/op	15256.09 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_128B-20              	213519146	         5.675 ns/op	22556.11 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_256B-20              	139013493	         8.622 ns/op	29691.48 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_512B-20              	81275397	        14.77 ns/op	34675.26 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_1KB-20               	44272674	        27.05 ns/op	37862.77 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_4KB-20               	10721649	       111.2 ns/op	36819.80 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_16KB-20              	 2862544	       419.0 ns/op	39098.89 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_256KB-20             	  134149	      7666 ns/op	34194.32 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_48B-20      	277208416	         4.331 ns/op	11082.88 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_64B-20      	312682412	         3.843 ns/op	16654.87 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_128B-20     	224248484	         5.384 ns/op	23774.27 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_256B-20     	142600744	         8.382 ns/op	30540.02 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_512B-20     	82580326	        14.51 ns/op	35296.55 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_1KB-20      	44998446	        26.70 ns/op	38355.50 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_4KB-20      	11156001	        99.91 ns/op	40998.29 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_16KB-20     	 2984728	       401.5 ns/op	40807.46 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_256KB-20    	  141429	      7612 ns/op	34438.03 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_48B-20                	269355254	         4.456 ns/op	10770.98 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_64B-20                	292645604	         4.026 ns/op	15896.69 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_128B-20               	216689595	         5.532 ns/op	23137.05 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_256B-20               	138223059	         8.584 ns/op	29822.55 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_512B-20               	87885271	        13.70 ns/op	37379.96 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_1KB-20                	56561389	        19.34 ns/op	52945.92 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_4KB-20                	15687424	        66.24 ns/op	61838.28 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_16KB-20               	 4899441	       246.2 ns/op	66546.62 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_256KB-20              	  231084	      4657 ns/op	56292.66 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_48B-20                	266935621	         4.497 ns/op	10674.83 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_64B-20                	295264654	         4.057 ns/op	15776.11 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128B-20               	211219422	         5.627 ns/op	22747.64 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_256B-20               	137328777	         8.725 ns/op	29339.96 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_512B-20               	95643570	        12.63 ns/op	40526.18 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_1KB-20                	74856728	        16.07 ns/op	63720.53 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_4KB-20                	24874134	        48.29 ns/op	84825.44 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_16KB-20               	 6802706	       175.8 ns/op	93194.92 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_256KB-20              	  293384	      4089 ns/op	64102.10 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_48B-20            	260352027	         4.596 ns/op	10443.81 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_64B-20            	288736432	         4.149 ns/op	15424.66 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_128B-20           	208576470	         5.650 ns/op	22653.63 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_256B-20           	138048318	         8.680 ns/op	29493.19 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_512B-20           	88274712	        13.66 ns/op	37473.70 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_1KB-20            	61826983	        19.31 ns/op	53029.30 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_4KB-20            	24635410	        48.93 ns/op	83718.64 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_16KB-20           	 6892786	       174.7 ns/op	93797.06 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_256KB-20          	  292480	      4094 ns/op	64035.09 MB/s	       0 B/op	       0 allocs/op
 PASS
-coverage: 82.2% of statements
-ok  	github.com/EetuAH/go-ws-mask-simd-bench	70.462s
+coverage: 82.0% of statements
+ok  	github.com/EetuAH/go-ws-mask-simd-bench	69.070s
 ```
 
 ---
@@ -149,52 +149,52 @@ goos: linux
 goarch: amd64
 pkg: github.com/EetuAH/go-ws-mask-simd-bench
 cpu: 13th Gen Intel(R) Core(TM) i9-13900H
-BenchmarkMaskOriginal_48B-20               	45289194	        26.51 ns/op	1810.50 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_64B-20               	192080500	         6.253 ns/op	10234.94 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_128B-20              	149288370	         8.010 ns/op	15981.00 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_256B-20              	98095380	        12.06 ns/op	21230.31 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_512B-20              	58255618	        20.50 ns/op	24978.07 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_1KB-20               	29019222	        34.84 ns/op	29393.29 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_4KB-20               	 8581066	       140.1 ns/op	29234.98 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_16KB-20              	 2348900	       511.6 ns/op	32024.63 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginal_256KB-20             	   88813	     12698 ns/op	20643.73 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_48B-20      	187455247	         6.426 ns/op	7469.59 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_64B-20      	204756044	         5.868 ns/op	10906.32 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_128B-20     	150110875	         7.947 ns/op	16105.98 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_256B-20     	94768135	        11.99 ns/op	21345.19 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_512B-20     	59201504	        20.27 ns/op	25256.93 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_1KB-20      	34859120	        34.37 ns/op	29790.90 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_4KB-20      	 8957829	       134.5 ns/op	30445.41 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_16KB-20     	 2432966	       493.1 ns/op	33224.28 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskOriginalOptimized_256KB-20    	   94621	     12853 ns/op	20395.17 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_48B-20                	184092405	         6.406 ns/op	7493.25 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_64B-20                	194893665	         6.163 ns/op	10384.82 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_128B-20               	150403326	         7.995 ns/op	16010.83 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_256B-20               	97388020	        11.96 ns/op	21397.72 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_512B-20               	64244688	        18.96 ns/op	27002.67 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_1KB-20                	42085699	        28.48 ns/op	35951.88 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_4KB-20                	11745216	       100.6 ns/op	40702.07 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_16KB-20               	 3517694	       341.6 ns/op	47957.78 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD128_256KB-20              	  113604	      9883 ns/op	26525.28 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_48B-20                	187073743	         6.387 ns/op	7514.82 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_64B-20                	196142006	         6.118 ns/op	10460.96 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128B-20               	144540705	         8.352 ns/op	15325.78 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_256B-20               	99002716	        12.09 ns/op	21179.19 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_512B-20               	 9295951	       123.6 ns/op	4141.25 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_1KB-20                	 9007368	       132.5 ns/op	7730.94 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_4KB-20                	14802586	        80.73 ns/op	50738.10 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_16KB-20               	 4483868	       266.2 ns/op	61540.74 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_256KB-20              	  115726	      9197 ns/op	28502.77 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_48B-20            	180835978	         6.703 ns/op	7161.23 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_64B-20            	190815795	         6.242 ns/op	10253.58 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_128B-20           	145451961	         8.249 ns/op	15516.51 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_256B-20           	100292130	        11.95 ns/op	21421.13 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_512B-20           	63567884	        18.83 ns/op	27190.95 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_1KB-20            	42054553	        28.46 ns/op	35978.96 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_4KB-20            	13163283	        80.11 ns/op	51129.60 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_16KB-20           	 4526919	       265.1 ns/op	61797.48 MB/s	       0 B/op	       0 allocs/op
-BenchmarkMaskSIMD256_128_256KB-20          	  118902	      9205 ns/op	28478.19 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_48B-20               	144569544	         8.189 ns/op	5861.74 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_64B-20               	188478589	         6.510 ns/op	9831.46 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_128B-20              	147061336	         8.283 ns/op	15453.34 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_256B-20              	97593014	        12.34 ns/op	20753.63 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_512B-20              	58636292	        20.62 ns/op	24827.64 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_1KB-20               	34130131	        35.34 ns/op	28975.90 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_4KB-20               	 7881733	       145.6 ns/op	28122.23 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_16KB-20              	 2325588	       509.4 ns/op	32166.23 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginal_256KB-20             	   94708	     12702 ns/op	20637.66 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_48B-20      	188014878	         6.379 ns/op	7524.41 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_64B-20      	204027714	         5.865 ns/op	10913.07 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_128B-20     	150967063	         7.949 ns/op	16101.96 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_256B-20     	97705269	        11.97 ns/op	21395.14 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_512B-20     	59614141	        20.29 ns/op	25237.15 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_1KB-20      	34885088	        34.38 ns/op	29781.43 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_4KB-20      	 8981322	       133.1 ns/op	30780.93 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_16KB-20     	 2397496	       491.4 ns/op	33344.54 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskOriginalOptimized_256KB-20    	   83149	     12906 ns/op	20312.27 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_48B-20                	186021304	         6.429 ns/op	7466.65 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_64B-20                	193218806	         6.169 ns/op	10375.06 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_128B-20               	150383638	         7.982 ns/op	16035.97 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_256B-20               	96895195	        11.94 ns/op	21436.30 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_512B-20               	62828049	        18.72 ns/op	27348.15 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_1KB-20                	38543594	        28.57 ns/op	35846.82 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_4KB-20                	12044654	        99.97 ns/op	40972.58 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_16KB-20               	 3469204	       345.5 ns/op	47416.37 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD128_256KB-20              	  117438	      9822 ns/op	26688.67 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_48B-20                	183513603	         6.416 ns/op	7480.89 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_64B-20                	195501397	         6.118 ns/op	10461.11 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128B-20               	145997406	         8.208 ns/op	15594.70 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_256B-20               	83312516	        12.51 ns/op	20469.68 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_512B-20               	 9418728	       114.4 ns/op	4476.28 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_1KB-20                	 9004363	       131.7 ns/op	7776.99 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_4KB-20                	12990074	        81.10 ns/op	50502.58 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_16KB-20               	 4513280	       266.2 ns/op	61554.72 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_256KB-20              	  110976	      9464 ns/op	27698.90 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_48B-20            	176435290	         6.924 ns/op	6932.44 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_64B-20            	192183895	         6.354 ns/op	10072.29 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_128B-20           	145739970	         8.228 ns/op	15556.22 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_256B-20           	100000000	        11.93 ns/op	21455.12 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_512B-20           	60542701	        18.80 ns/op	27238.19 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_1KB-20            	41977092	        28.44 ns/op	36002.27 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_4KB-20            	13992894	        80.33 ns/op	50989.88 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_16KB-20           	 4526767	       265.4 ns/op	61741.16 MB/s	       0 B/op	       0 allocs/op
+BenchmarkMaskSIMD256_128_256KB-20          	  129128	      9226 ns/op	28414.78 MB/s	       0 B/op	       0 allocs/op
 PASS
-coverage: 82.2% of statements
-ok  	github.com/EetuAH/go-ws-mask-simd-bench	70.856s
+coverage: 82.0% of statements
+ok  	github.com/EetuAH/go-ws-mask-simd-bench	67.038s
 ```
