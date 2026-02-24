@@ -47,7 +47,7 @@ goarch: amd64
 
 ---
 
-# 🧠 Why SIMD256 Collapses at 512B–1KB?
+# Why SIMD256 Collapses at 512B–1KB?
 
 On many Intel CPUs (including 13th gen):
 
@@ -64,7 +64,7 @@ This gives the best overall performance profile.
 
 ---
 
-# 🏁 Summary
+# Summary
 
 | Size Range          | Best Implementation         |
 | ------------------- | --------------------------- |
