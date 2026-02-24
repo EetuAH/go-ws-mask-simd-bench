@@ -157,8 +157,6 @@ func MaskXOR_SIMD128(b []byte, key []byte) {
 // core frequency.
 //
 // Smaller buffers fall back to the scalar 64-bit path.
-//
-// Performs better well on benchMaskInPlace, but suffers more on benchMaskCopy for < 4KB buffers.
 func MaskXOR_SIMD256(b []byte, key []byte) {
 	key32 := binary.LittleEndian.Uint32(key)
 	key64 := uint64(key32)<<32 | uint64(key32)
