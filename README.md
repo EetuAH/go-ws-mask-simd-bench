@@ -71,6 +71,10 @@ The Hybrid approach avoids this by:
 
 This results in much more stable performance across workload types.
 
+
+*Note: AVX2 frequency downclocking can also occur, but the dramatic mid-size collapse observed here matches documented AVX–SSE transition behavior.*
+
+
 ---
 
 # Summary
