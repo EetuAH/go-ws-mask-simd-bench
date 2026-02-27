@@ -3,7 +3,7 @@
 This repository benchmarks multiple WebSocket masking (XOR) implementations:
 
 * **Original** - from [`lxzan/gws`](https://github.com/lxzan/gws/blob/main/internal/utils.go#L87)
-* **OriginalOptimized** - small scalar improvements
+* **OriginalOptimized** - scalar improvements for small payloads
 * **SIMD128** - Go 1.26 `archsimd` (128-bit)
 * **SIMD256** - AVX2 (256-bit)
 
