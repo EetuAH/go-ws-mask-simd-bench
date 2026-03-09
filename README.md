@@ -36,7 +36,7 @@ goarch: amd64
 
 * Small buffers (<64B): The optimized scalar implementation slightly outperforms the original due to reduced loop overhead.
 * SIMD128 improves steadily from 512B upward.
-* **SIMD256 now scales correctly across all sizes.**
+* **SIMD256 scales efficiently once loop overhead amortizes.**
 * ≥4KB shows clear AVX2 advantage.
 * 16KB reaches ~61 GB/s.
 * 256KB approaches memory-bandwidth limits.
