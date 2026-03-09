@@ -21,7 +21,7 @@ goarch: amd64
 
 ## In-Place Benchmark (Hot Buffer)
 
-* **Very small buffers (<64B)**: The optimized scalar implementation slightly outperforms the original due to reduced loop overhead.
+* Small buffers (<64B): The optimized scalar implementation slightly outperforms the original due to reduced loop overhead.
 * SIMD128 improves throughput starting at mid-size buffers.
 * SIMD256 shows strong scaling once loop overhead amortizes.
 * ≥4KB clearly demonstrates AVX2’s 32-byte lane advantage.
@@ -34,7 +34,7 @@ goarch: amd64
 
 ## Copy Benchmark (Streaming / Realistic)
 
-* **Very small buffers (<64B)**: The optimized scalar implementation slightly outperforms the original due to reduced loop overhead.
+* Small buffers (<64B): The optimized scalar implementation slightly outperforms the original due to reduced loop overhead.
 * SIMD128 improves steadily from 512B upward.
 * **SIMD256 now scales correctly across all sizes.**
 * ≥4KB shows clear AVX2 advantage.
